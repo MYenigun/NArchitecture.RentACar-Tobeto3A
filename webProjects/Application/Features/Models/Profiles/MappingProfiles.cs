@@ -2,7 +2,9 @@
 using Application.Features.Models.Commands.Delete;
 using Application.Features.Models.Commands.Update;
 using Application.Features.Models.Dtos;
+using Application.Features.Models.Models;
 using AutoMapper;
+using Core.Persistence.Paging;
 using Domain.Entities;
 
 namespace Application.Features.Models.Profiles
@@ -12,7 +14,7 @@ namespace Application.Features.Models.Profiles
         public MappingProfiles()
         {
             CreateMap<Model, CreateModelCommand>().ReverseMap();
-            CreateMap<Model, CreatedModelResponse>().ReverseMap();
+            CreateMap<Model, CreatedModelResponse>().ForMember(c => c.BrandName, opt => opt.MapFrom(c => c.Brand.Name)).ReverseMap();
 
             CreateMap<Model, DeleteModelCommand>().ReverseMap();
             CreateMap<Model, DeletedModelResponse>().ReverseMap();
@@ -22,6 +24,8 @@ namespace Application.Features.Models.Profiles
 
             CreateMap<Model, GetAllModelsResponse>().ReverseMap();
             CreateMap<Model, GetByIdModelResponse>().ReverseMap();
+
+            CreateMap<IPaginate<Model>, ModelListModel>().ReverseMap();
         }
     }
 }
